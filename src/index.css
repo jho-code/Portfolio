@@ -1,25 +1,29 @@
 :root {
   font-family:
-    "Avenir Next", Avenir, "Segoe UI", sans-serif;
-  color: #183b4a;
-  background: #c6e8f1;
+    "Atkinson Hyperlegible", "Aptos", "Segoe UI", "Helvetica Neue", Arial,
+    sans-serif;
+  color: #17364b;
+  background: #f5f8f7;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
-  --ink: #183b4a;
-  --muted: #4e6a74;
-  --paper: #c6e8f1;
-  --surface: #fff4bd;
-  --line: #a05a70;
-  --accent: #912d50;
-  --accent-soft: #fff4bd;
-  --space-1: 0.5rem;
-  --space-2: 1rem;
-  --space-3: 1.5rem;
-  --space-4: 2rem;
-  --space-5: 3rem;
-  --space-6: 5rem;
-  --content-width: 72rem;
+  -moz-osx-font-smoothing: grayscale;
+  font-optical-sizing: auto;
+  font-weight: 400;
+
+  --ink: #17364b;
+  --ink-soft: #315367;
+  --muted: #536d7c;
+  --paper: #f5f8f7;
+  --surface: #ffffff;
+  --line: #d6e1e3;
+  --teal: #176f70;
+  --teal-dark: #105858;
+  --teal-pale: #e7f2ef;
+  --coral: #c65e3b;
+  --gold: #d6a64f;
+
+  color-scheme: light;
 }
 
 * {
@@ -27,30 +31,61 @@
 }
 
 html {
+  min-width: 320px;
   scroll-behavior: smooth;
+  scroll-padding-top: 1.5rem;
 }
 
 body {
-  margin: 0;
   min-width: 320px;
+  min-height: 100vh;
+  margin: 0;
+  line-height: 1.55;
 }
 
-a {
-  color: inherit;
-}
-
-a:focus-visible {
-  outline: 3px solid var(--accent);
-  outline-offset: 4px;
+body,
+button,
+input,
+select {
+  font-family: inherit;
 }
 
 button,
+input,
+select {
+  font-size: inherit;
+}
+
+button {
+  color: inherit;
+}
+
 a {
-  -webkit-tap-highlight-color: transparent;
+  color: var(--teal-dark);
+  text-underline-offset: 0.18em;
+}
+
+a:hover {
+  color: var(--coral);
+}
+
+::selection {
+  color: var(--ink);
+  background: #c9e6dd;
+}
+
+:focus-visible {
+  outline: 3px solid var(--coral);
+  outline-offset: 3px;
 }
 
 @media (prefers-reduced-motion: reduce) {
-  html {
-    scroll-behavior: auto;
+  *,
+  *::before,
+  *::after {
+    scroll-behavior: auto !important;
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
   }
 }
