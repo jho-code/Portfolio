@@ -2,8 +2,8 @@
   font-family:
     "Atkinson Hyperlegible", "Aptos", "Segoe UI", "Helvetica Neue", Arial,
     sans-serif;
-  color: #17364b;
-  background: #f5f8f7;
+  color: #371b2c;
+  background: #fffaf1;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -11,17 +11,20 @@
   font-optical-sizing: auto;
   font-weight: 400;
 
-  --ink: #17364b;
-  --ink-soft: #315367;
-  --muted: #536d7c;
-  --paper: #f5f8f7;
-  --surface: #ffffff;
-  --line: #d6e1e3;
-  --teal: #176f70;
-  --teal-dark: #105858;
-  --teal-pale: #e7f2ef;
-  --coral: #c65e3b;
-  --gold: #d6a64f;
+  --ink: #371b2c;
+  --ink-soft: #573a4c;
+  --muted: #6d5864;
+  --paper: #fffaf1;
+  --surface: #fffdf8;
+  --line: #e6d9d2;
+  --burgundy: #762643;
+  --burgundy-dark: #4b172f;
+  --sky: #dcedf5;
+  --sky-deep: #28677e;
+  --yellow: #f4e3a1;
+  --yellow-deep: #6c5416;
+  --coral: #ba5c4a;
+  --display-font: Georgia, "Times New Roman", serif;
 
   color-scheme: light;
 }
@@ -40,6 +43,10 @@ body {
   min-width: 320px;
   min-height: 100vh;
   margin: 0;
+  background:
+    radial-gradient(circle at 1px 1px, rgb(118 38 67 / 4%) 1px, transparent 0)
+      0 0 / 24px 24px,
+    var(--paper);
   line-height: 1.55;
 }
 
@@ -61,7 +68,7 @@ button {
 }
 
 a {
-  color: var(--teal-dark);
+  color: var(--burgundy);
   text-underline-offset: 0.18em;
 }
 
@@ -70,12 +77,12 @@ a:hover {
 }
 
 ::selection {
-  color: var(--ink);
-  background: #c9e6dd;
+  color: var(--burgundy-dark);
+  background: var(--yellow);
 }
 
 :focus-visible {
-  outline: 3px solid var(--coral);
+  outline: 3px solid var(--sky-deep);
   outline-offset: 3px;
 }
 

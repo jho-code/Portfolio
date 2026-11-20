@@ -50,10 +50,10 @@ const INTEGER_FORMAT = new Intl.NumberFormat('en-US', {
   maximumFractionDigits: 0,
 })
 const QUADRANT_COLORS: Record<Quadrant, string> = {
-  'High need / higher readmissions': '#A63D50',
-  'High need / lower readmissions': '#9C6D13',
-  'Lower need / higher readmissions': '#146F78',
-  'Lower need / lower readmissions': '#66788A',
+  'High need / higher readmissions': '#8B3154',
+  'High need / lower readmissions': '#956F17',
+  'Lower need / higher readmissions': '#337D98',
+  'Lower need / lower readmissions': '#6D7A84',
 }
 
 const REQUIRED_MESSAGE =
@@ -382,28 +382,28 @@ function CountyScatterPlot({
           y={plot.top}
           width={medianX - plot.left}
           height={medianY - plot.top}
-          fill="#E8F2F1"
+          fill="#E8F4F7"
         />
         <rect
           x={medianX}
           y={plot.top}
           width={plot.right - medianX}
           height={medianY - plot.top}
-          fill="#F8E9EC"
+          fill="#F4E2E9"
         />
         <rect
           x={plot.left}
           y={medianY}
           width={medianX - plot.left}
           height={plot.bottom - medianY}
-          fill="#EEF1F4"
+          fill="#EDF1F5"
         />
         <rect
           x={medianX}
           y={medianY}
           width={plot.right - medianX}
           height={plot.bottom - medianY}
-          fill="#F7F1E5"
+          fill="#FCF3CE"
         />
 
         {yTicks.map((tick) => (
@@ -474,9 +474,9 @@ function CountyScatterPlot({
             fillOpacity={county.strictPriority ? 0.9 : 0.62}
             stroke={
               selectedFips === county.fips
-                ? '#102A43'
+                ? '#4B172F'
                 : county.strictPriority
-                  ? '#243B53'
+                  ? '#573A4C'
                   : 'white'
             }
             strokeWidth={

@@ -45,11 +45,17 @@ function App() {
           aria-labelledby="hero-title"
         >
           <div className="page-container">
-            <p className="eyebrow">Health policy · Geospatial analysis</p>
+            <p className="eyebrow hero-eyebrow">
+              <span className="eyebrow-spark" aria-hidden="true">
+                ✳
+              </span>
+              Health policy · Geospatial analysis
+            </p>
             <div className="hero-grid">
               <div className="hero-copy">
                 <h1 id="hero-title">
-                  Where does health need overlap with Medicare readmissions?
+                  Where does <span className="hero-highlight">health need</span>{' '}
+                  overlap with <em>Medicare readmissions?</em>
                 </h1>
                 <p className="hero-intro">
                   A county-level screening tool to help policy and health
@@ -71,13 +77,24 @@ function App() {
               </div>
 
               <aside className="decision-card" aria-label="How to use this analysis">
-                <p className="decision-label">Decision lens</p>
+                <div className="decision-card-topline">
+                  <p className="decision-label">Decision lens</p>
+                  <span className="decision-stamp" aria-hidden="true">
+                    FIELD NOTE <strong>01</strong>
+                  </span>
+                </div>
                 <h2>Find overlap. Then ask why.</h2>
                 <p>
                   Compare community health need with one Medicare outcome, then
                   bring service use and provider context into local review.
                 </p>
                 <div className="decision-diagram" aria-hidden="true">
+                  <svg className="diagram-path" viewBox="0 0 200 120">
+                    <path d="M8 98 C 40 92, 40 57, 72 69 S 112 39, 142 47 S 166 15, 192 20" />
+                    <circle cx="72" cy="69" r="5" />
+                    <circle cx="142" cy="47" r="5" />
+                    <circle cx="192" cy="20" r="5" />
+                  </svg>
                   <span className="diagram-y">Higher readmissions</span>
                   <span className="diagram-x">Higher need</span>
                   <span className="diagram-highlight">Investigate together</span>
