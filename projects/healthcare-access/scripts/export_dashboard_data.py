@@ -144,8 +144,9 @@ def build_dashboard_data() -> dict[str, object]:
     return {
         "schemaVersion": 1,
         "readmissionDisplayNote": (
-            "The CMS source field is multiplied by 100 for display; "
-            "verify its exact definition and unit in CMS documentation."
+            "I multiply the CMS source value by 100 for display. "
+            "I haven't confirmed its unit, so check CMS documentation before "
+            "reading it as a percentage."
         ),
         "countyCount": len(counties),
         "followUpCount": len(followup_rows),

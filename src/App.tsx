@@ -2,10 +2,10 @@ import HealthcareAccessExplorer from './HealthcareAccessExplorer'
 import './App.css'
 
 const navigation = [
-  { label: 'Overview', href: '#overview' },
+  { label: 'Start here', href: '#overview' },
   { label: 'Explore counties', href: '#explore' },
-  { label: 'Findings', href: '#findings' },
-  { label: 'Methods & sources', href: '#methods' },
+  { label: 'What I found', href: '#findings' },
+  { label: 'How I built this', href: '#methods' },
 ]
 
 function App() {
@@ -54,39 +54,36 @@ function App() {
             <div className="hero-grid">
               <div className="hero-copy">
                 <h1 id="hero-title">
-                  Where does <span className="hero-highlight">health need</span>{' '}
-                  overlap with <em>Medicare readmissions?</em>
+                  Where do <span className="hero-highlight">health needs</span>{' '}
+                  and <em>Medicare readmissions</em> show up together?
                 </h1>
                 <p className="hero-intro">
-                  A county-level screening tool to help policy and health
-                  leaders decide where local investigation may be useful.
-                </p>
-                <p className="hero-caveat">
-                  It is a starting point for inquiry—not a quality score,
-                  shortage designation, or funding formula.
+                  I built this to compare a county health-need score with
+                  Medicare hospital readmissions and see where both show up
+                  together.
                 </p>
                 <div className="hero-actions">
                   <a className="button button-primary" href="#explore">
-                    Explore county patterns
+                    Explore the data
                     <span aria-hidden="true">↓</span>
-                  </a>
-                  <a className="hero-secondary-link" href="#findings">
-                    Read the key findings
                   </a>
                 </div>
               </div>
 
-              <aside className="decision-card" aria-label="How to use this analysis">
+              <aside
+                className="decision-card"
+                aria-label="Project 101: Why readmissions matter"
+              >
                 <div className="decision-card-topline">
-                  <p className="decision-label">Decision lens</p>
-                  <span className="decision-stamp" aria-hidden="true">
-                    FIELD NOTE <strong>01</strong>
-                  </span>
+                  <p className="decision-label">Project 101</p>
                 </div>
-                <h2>Find overlap. Then ask why.</h2>
+                <h2>Why look at readmissions?</h2>
                 <p>
-                  Compare community health need with one Medicare outcome, then
-                  bring service use and provider context into local review.
+                  A readmission is a return to the hospital after an earlier
+                  stay. This CMS measure lets me compare counties. Higher
+                  values can be a clue to look at follow-up and access after
+                  discharge—but they don’t tell us why someone returned or
+                  judge the care on their own.
                 </p>
                 <div className="decision-diagram" aria-hidden="true">
                   <svg className="diagram-path" viewBox="0 0 200 120">
@@ -97,18 +94,16 @@ function App() {
                   </svg>
                   <span className="diagram-y">Higher readmissions</span>
                   <span className="diagram-x">Higher need</span>
-                  <span className="diagram-highlight">Investigate together</span>
+                  <span className="diagram-highlight">Worth a closer look</span>
                 </div>
                 <p className="decision-footnote">
-                  County patterns do not explain individual experiences or
-                  causes.
+                  I also compare provider and visit data to add context.
                 </p>
               </aside>
             </div>
-            <div className="source-strip" aria-label="Data vintages">
-              <span>CDC PLACES 2024 release</span>
-              <span>CMS 2024 county data</span>
-              <span>Source vintages vary</span>
+            <div className="source-strip" aria-label="Data sources">
+              <span>CDC PLACES · 2024 release</span>
+              <span>CMS Medicare · 2024 county data</span>
             </div>
           </div>
         </section>
@@ -121,13 +116,13 @@ function App() {
           <div className="page-container">
             <div className="section-intro">
               <div>
-                <p className="eyebrow">01 / Explore</p>
-                <h2 id="explore-title">See the county-level pattern</h2>
+                <p className="eyebrow">01 / Let’s explore</p>
+                <h2 id="explore-title">Let’s look county by county</h2>
               </div>
               <p>
-                Use the chart to see where need and reported readmissions rise
-                together. Filter by state or county, then inspect the measures
-                before drawing a conclusion.
+                Each dot is a county. Search or filter to compare places, then
+                choose a dot or row to see the measures. The dashed lines show
+                medians across the full dataset.
               </p>
             </div>
             <HealthcareAccessExplorer />
@@ -142,61 +137,59 @@ function App() {
           <div className="page-container">
             <div className="section-intro">
               <div>
-                <p className="eyebrow">02 / What stands out</p>
-                <h2 id="findings-title">
-                  A useful screen is not a verdict.
-                </h2>
+                <p className="eyebrow">02 / What I found</p>
+                <h2 id="findings-title">A few patterns caught my eye.</h2>
               </div>
               <p>
-                These findings help frame follow-up questions. They do not
-                establish cause, inadequate care, or a place’s eligibility for
-                resources.
+                The overlap helps narrow where to look. It doesn’t tell us
+                what’s driving readmissions or whether care is adequate.
               </p>
             </div>
 
             <div className="finding-grid">
               <article className="finding-card">
                 <span className="finding-number">01</span>
-                <h3>Two signals identify a manageable review group.</h3>
+                <h3>287 counties are high on both measures.</h3>
                 <p>
-                  Of 2,997 counties with both NeedScore and readmission data,
-                  287 fall in the top quartile on both measures. The median
-                  split is broader, flagging 850 counties.
+                  Of 2,997 counties with both measures, 287 are in the top
+                  quartile for both. Using the broader median split flags 850
+                  counties.
                 </p>
               </article>
               <article className="finding-card finding-card-emphasis">
                 <span className="finding-number">02</span>
-                <h3>Local context adds useful—not definitive—evidence.</h3>
+                <h3>Provider data add context, not an answer.</h3>
                 <p>
-                  In the 63-county follow-up list, 27 have a current geographic
-                  primary-care HPSA record; 24 also fall below the county
-                  median for AHRF physician density.
+                  Of the 63 counties on the follow-up list, 27 have a current
+                  geographic primary-care HPSA record; 24 also fall below the
+                  county median for AHRF physician density. That gives us more
+                  to check, but it doesn’t explain the pattern.
                 </p>
               </article>
               <article className="finding-card">
                 <span className="finding-number">03</span>
-                <h3>Cutoffs and denominators can change interpretation.</h3>
+                <h3>A few choices change the shortlist.</h3>
                 <p>
-                  Four top-quartile counties change when total population
-                  replaces adult population in NeedScore aggregation.
-                  Beneficiary counts are shown as context, not assumed
-                  measure-specific denominators.
+                  Four counties change status when I use total population
+                  instead of adult population to aggregate NeedScore.
+                  Beneficiary counts are context; I haven’t confirmed the exact
+                  denominator for each CMS measure.
                 </p>
               </article>
             </div>
 
             <div className="action-panel">
               <div>
-                <p className="eyebrow">A practical next step</p>
-                <h3>Validate locally before acting.</h3>
+                <p className="eyebrow">Before using this list</p>
+                <h3>Take a closer look before acting.</h3>
               </div>
               <ol>
-                <li>Review data completeness and beneficiary counts.</li>
-                <li>Check subcounty access, appointment capacity, and local need.</li>
-                <li>Discuss findings with community and clinical partners.</li>
+                <li>Check whether the data are complete and how many people they cover.</li>
+                <li>Look at access within each county, including appointment availability.</li>
+                <li>Talk with local providers and community partners.</li>
               </ol>
               <p className="action-disclaimer">
-                Do not allocate resources from this shortlist alone.
+                I wouldn’t use this shortlist by itself to decide where resources go.
               </p>
             </div>
           </div>
@@ -210,24 +203,24 @@ function App() {
           <div className="page-container">
             <div className="section-intro">
               <div>
-                <p className="eyebrow">03 / How to read it</p>
-                <h2 id="methods-title">Methods, definitions & sources</h2>
+                <p className="eyebrow">03 / How I built this</p>
+                <h2 id="methods-title">What went into the comparison</h2>
               </div>
               <p>
-                The measures are intentionally kept separate so readers can see
-                what each one says—and what it cannot say.
+                I kept health need, readmissions, and provider context separate
+                so it’s clear what each measure can—and can’t—tell us.
               </p>
             </div>
 
             <div className="method-grid">
               <article className="method-card">
                 <span className="method-step">01</span>
-                <h3>Health need</h3>
+                <h3>Health need (NeedScore)</h3>
                 <p>
-                  NeedScore is the first principal component of 12
-                  standardized, adverse PLACES prevalence measures. It explains
-                  73.1% of their standardized variance; higher values indicate
-                  higher prevalence on average.
+                  I combined 12 standardized PLACES prevalence measures using
+                  PCA. The first component explains 73.1% of their standardized
+                  variance; higher scores reflect higher average prevalence
+                  across these measures.
                 </p>
                 <p className="method-meta">
                   County scores are weighted by tract adult population.
@@ -235,67 +228,67 @@ function App() {
               </article>
               <article className="method-card">
                 <span className="method-step">02</span>
-                <h3>Readmission measure</h3>
+                <h3>Readmissions</h3>
                 <p>
-                  The chart uses the CMS acute hospital readmission field,
-                  displayed as the source value multiplied by 100. Confirm the
-                  field definition and unit in CMS documentation before
-                  interpreting it as a percentage.
+                  I use the CMS acute hospital readmission field and multiply
+                  the source value by 100 for display. I haven’t confirmed the
+                  field’s definition and unit, so check CMS documentation
+                  before reading it as a percentage.
                 </p>
                 <p className="method-meta">
-                  This is one outcome, not a complete quality measure.
+                  One outcome, not a complete picture of quality.
                 </p>
               </article>
               <article className="method-card">
                 <span className="method-step">03</span>
-                <h3>Exploratory groups</h3>
+                <h3>The follow-up list</h3>
                 <p>
-                  Top-quartile candidates meet or exceed the 75th percentile on
-                  both NeedScore and readmissions. The follow-up list also falls
-                  below the scored-county medians on FQHC/RHC and outpatient
-                  visits per 1,000 beneficiaries.
+                  I flagged counties at or above the 75th percentile on both
+                  NeedScore and readmissions. For a closer look, I also
+                  included counties below the county median on FQHC/RHC and
+                  outpatient visits per 1,000 beneficiaries.
                 </p>
                 <p className="method-meta">
-                  These relative thresholds are not policy or clinical standards.
+                  These cutoffs help compare counties; they aren’t official
+                  policy or clinical standards.
                 </p>
               </article>
             </div>
 
             <div className="reading-notes">
               <details>
-                <summary>Why are the data years not all the same?</summary>
+                <summary>Why don’t the data years match?</summary>
                 <p>
-                  “PLACES 2024 release” describes the release vintage, not the
-                  year every underlying health estimate was measured. CMS uses
-                  2024 county data; the AHRF physician numerator is from 2023
-                  and its population denominator is 2024. The HRSA HPSA file is
-                  a current-designation snapshot retrieved November 17, 2026.
+                  “PLACES 2024 release” is the release name; it doesn’t mean
+                  every estimate is from 2024. CMS uses 2024 county data.
+                  AHRF physician counts are from 2023, with a 2024 population
+                  denominator. The HRSA HPSA file is a current-designation
+                  snapshot retrieved November 17, 2026.
                 </p>
               </details>
               <details>
-                <summary>What does a missing or zero value mean?</summary>
+                <summary>Are missing and zero values the same?</summary>
                 <p>
-                  Missing and suppressed values are not zero. Six counties
-                  report a zero readmission value in the source extract; inspect
+                  No. Missing and suppressed values aren’t zero. Six counties
+                  have a zero readmission value in the source extract, so check
                   those values and small beneficiary counts before using them.
-                  The exact outcome-specific CMS denominators have not been
-                  independently confirmed in this project.
+                  I haven’t independently confirmed each CMS outcome’s
+                  denominator.
                 </p>
               </details>
               <details>
-                <summary>What is an appropriate use of this shortlist?</summary>
+                <summary>How should I use the shortlist?</summary>
                 <p>
-                  Use it to prioritize data review and conversations with
-                  local partners. Validate access within counties, provider
-                  capacity, population needs, measure reliability, and current
-                  program definitions before making policy or investment
-                  decisions.
+                  Use it to decide where to look more closely—not where to send
+                  money. Check access within each county, provider capacity,
+                  local needs, measure reliability, and current program rules
+                  with people who know the area.
                 </p>
               </details>
             </div>
 
             <div className="source-list">
-              <h3>Data sources</h3>
+              <h3>Data behind this</h3>
               <ul>
                 <li>
                   <a
@@ -355,7 +348,7 @@ function App() {
 
       <footer className="site-footer">
         <div className="page-container footer-inner">
-          <p>Jennifer Ho · Health data & policy</p>
+          <p>Built by Jennifer Ho · Health data & policy</p>
           <a href="#overview">Back to top ↑</a>
         </div>
       </footer>

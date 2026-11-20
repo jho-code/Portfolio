@@ -57,7 +57,7 @@ const QUADRANT_COLORS: Record<Quadrant, string> = {
 }
 
 const REQUIRED_MESSAGE =
-  'The interactive county data could not be loaded. Rerun the data export script and refresh this page.'
+  'The county data didn’t load. Try refreshing the page; if it keeps happening, the data file may need attention.'
 
 function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null && !Array.isArray(value)
@@ -375,7 +375,7 @@ function CountyScatterPlot({
         className="county-scatter"
         viewBox={`0 0 ${width} ${height}`}
         role="img"
-        aria-label={`Scatter plot of ${INTEGER_FORMAT.format(counties.length)} filtered counties. The horizontal and vertical dashed lines are fixed full-cohort medians.`}
+        aria-label={`Scatter plot of ${INTEGER_FORMAT.format(counties.length)} counties. The dashed lines show medians across the full dataset.`}
       >
         <rect
           x={plot.left}
@@ -490,11 +490,11 @@ function CountyScatterPlot({
             className="chart-point"
           >
             <title>
-              {county.county}, {county.state} ({county.fips}). Need
-              score {formatNumber(county.needScore, 2)}. Readmission source
-              value × 100: {formatNumber(county.readmissionDisplay, 2)}.
-              {county.strictPriority ? ' Top-quartile candidate.' : ''}
-              {' '}Click for county details.
+              {county.county}, {county.state} ({county.fips}).               NeedScore: {formatNumber(county.needScore, 2)}. Readmission
+              measure (source value × 100):{' '}
+              {formatNumber(county.readmissionDisplay, 2)}.
+              {county.strictPriority ? ' Top quartile on both measures.' : ''}
+              {' '}Choose this dot to see county details.
             </title>
           </circle>
         ))}
@@ -518,11 +518,11 @@ function CountyScatterPlot({
         </text>
       </svg>
       <p className="chart-caption">
-        Dashed lines are the full-cohort medians: NeedScore{' '}
-        <strong>{formatNumber(needMedian, 2)}</strong> and readmission display
-        value <strong>{formatNumber(readmissionMedian, 2)}</strong>. Outlined
-        points mark the top-quartile group on both measures. Select a dot or use
-        the county table below. {readmissionDisplayNote}
+        The dashed lines mark the medians across all counties: NeedScore{' '}
+        <strong>{formatNumber(needMedian, 2)}</strong> and readmissions{' '}
+        <strong>{formatNumber(readmissionMedian, 2)}</strong>. Outlined dots are
+        in the top quartile on both measures. Choose a dot or county name below
+        to see the details. {readmissionDisplayNote}
       </p>
     </div>
   )
@@ -532,11 +532,10 @@ function CountyDetails({ county }: { county: CountyRecord | null }) {
   if (!county) {
     return (
       <div className="county-details county-details-empty" aria-live="polite">
-        <p className="detail-eyebrow">County detail</p>
-        <h3>Select a county</h3>
+        <p className="detail-eyebrow">County details</p>
+        <h3>Choose a county</h3>
         <p>
-          Choose a point or county in the table to inspect its separate
-          measures.
+          Click a chart dot or county name to see its measures.
         </p>
       </div>
     )
@@ -546,22 +545,22 @@ function CountyDetails({ county }: { county: CountyRecord | null }) {
     <div className="county-details" aria-live="polite">
       <p className="detail-eyebrow">
         {county.followUpCandidate
-          ? 'Exploratory follow-up county'
+          ? 'On the follow-up list'
           : county.strictPriority
-            ? 'Top-quartile candidate'
-            : 'County detail'}
+            ? 'Top quartile on both measures'
+            : 'County details'}
       </p>
       <h3>
         {county.county}, {county.state}
       </h3>
-      <p className="county-fips">County FIPS {county.fips}</p>
+      <p className="county-fips">FIPS {county.fips}</p>
       <dl className="detail-metrics">
         <div>
           <dt>NeedScore</dt>
           <dd>{formatNumber(county.needScore, 2)}</dd>
         </div>
         <div>
-          <dt>Readmission field × 100</dt>
+          <dt>Readmission measure × 100</dt>
           <dd>{formatNumber(county.readmissionDisplay, 2)}</dd>
         </div>
         <div>
@@ -612,8 +611,8 @@ function CountyDetails({ county }: { county: CountyRecord | null }) {
         </div>
       )}
       <p className="detail-note">
-        Beneficiary counts are context, not confirmed measure-specific
-        denominators. Missing values are not interpreted as zero.
+        Beneficiary counts are context—not confirmed rate denominators. Missing
+        values aren’t zero.
       </p>
     </div>
   )
@@ -632,8 +631,8 @@ function CountyTable({
     <div className="table-scroll">
       <table className="county-table">
         <caption className="visually-hidden">
-          Filtered counties ordered by the selected measure. Select a county to
-          view details.
+          Filtered counties, ordered by the selected measure. Choose a county
+          name to see its details.
         </caption>
         <thead>
           <tr>
@@ -680,8 +679,8 @@ function CountyTable({
           {counties.length === 0 && (
             <tr>
               <td colSpan={5} className="table-empty">
-                No counties match these filters. Clear a filter or try a
-                broader search.
+                Nothing matches those filters. Try a broader search or reset
+                the filters.
               </td>
             </tr>
           )}
@@ -806,7 +805,7 @@ function HealthcareAccessExplorer() {
 
       {loadState === 'error' && (
         <div className="explorer-state explorer-error" role="alert">
-          <h3>County explorer unavailable</h3>
+          <h3>I couldn’t load the county explorer.</h3>
           <p>{REQUIRED_MESSAGE}</p>
           <p className="error-detail">{loadError}</p>
           <button
@@ -814,39 +813,39 @@ function HealthcareAccessExplorer() {
             className="button button-secondary"
             onClick={() => setReloadKey((key) => key + 1)}
           >
-            Retry loading
+            Try again
           </button>
         </div>
       )}
 
       {loadState === 'ready' && countyDataset && (
         <>
-          <div className="metric-grid" aria-label="Analysis snapshot">
+          <div className="metric-grid" aria-label="At a glance">
             <article className="metric-card">
-              <p className="metric-label">Counties in the main comparison</p>
+              <p className="metric-label">Counties in this comparison</p>
               <p className="metric-value">
                 {INTEGER_FORMAT.format(counties.length)}
               </p>
-              <p className="metric-note">NeedScore + readmission available</p>
+              <p className="metric-note">NeedScore and readmissions available</p>
             </article>
             <article className="metric-card metric-card-accent">
-              <p className="metric-label">Top-quartile candidates</p>
+              <p className="metric-label">Top quartile on both measures</p>
               <p className="metric-value">{INTEGER_FORMAT.format(strictCount)}</p>
               <p className="metric-note">
-                High need and higher readmission measure
+                NeedScore and readmissions
               </p>
             </article>
             <article className="metric-card">
-              <p className="metric-label">Exploratory follow-up list</p>
+              <p className="metric-label">Counties for a closer look</p>
               <p className="metric-value">
                 {INTEGER_FORMAT.format(countyDataset.followUpCount)}
               </p>
               <p className="metric-note">
-                Also below median on both visit measures
+                Below the median on both visit measures
               </p>
             </article>
             <article className="metric-card metric-card-context">
-              <p className="metric-label">Follow-up counties with both context signals</p>
+              <p className="metric-label">Follow-up counties with both signals</p>
               <p className="metric-value">
                 {countyDataset.followUpBothSignalsCount}
                 <span> / {countyDataset.followUpCount}</span>
@@ -862,10 +861,10 @@ function HealthcareAccessExplorer() {
               i
             </span>
             <p>
-              The median-split comparison includes {INTEGER_FORMAT.format(medianPriorityCount)}{' '}
-              counties. The top-quartile group and 63-county follow-up list are
-              exploratory screens—not official designations or funding
-              recommendations.
+              The broader median split flags {INTEGER_FORMAT.format(medianPriorityCount)}{' '}
+              counties. The top-quartile group and 63-county follow-up list help
+              narrow the map; neither is an official designation or a funding
+              recommendation.
             </p>
           </div>
 
@@ -874,13 +873,13 @@ function HealthcareAccessExplorer() {
               <section className="chart-panel" aria-labelledby="county-chart-title">
                 <div className="panel-heading">
                   <div>
-                    <p className="panel-kicker">Explore the pattern</p>
+                    <p className="panel-kicker">Take a look</p>
                     <h3 id="county-chart-title">
-                      Need and reported readmissions, county by county
+                      One dot per county: estimated need vs reported readmissions
                     </h3>
                   </div>
                   <span className="chart-size">
-                    {INTEGER_FORMAT.format(filteredCounties.length)} in view
+                    {INTEGER_FORMAT.format(filteredCounties.length)} counties
                   </span>
                 </div>
 
@@ -905,7 +904,7 @@ function HealthcareAccessExplorer() {
                   ))}
                   <li>
                     <span className="legend-ring" aria-hidden="true" />
-                    Top-quartile candidate
+                    Top quartile on both
                   </li>
                 </ul>
               </section>
@@ -913,8 +912,8 @@ function HealthcareAccessExplorer() {
               <section className="table-panel" aria-labelledby="county-table-title">
                 <div className="panel-heading table-heading">
                   <div>
-                    <p className="panel-kicker">Find a county</p>
-                    <h3 id="county-table-title">County details</h3>
+                    <p className="panel-kicker">Look up a county</p>
+                    <h3 id="county-table-title">Search and compare</h3>
                   </div>
                   <button
                     type="button"
@@ -922,12 +921,12 @@ function HealthcareAccessExplorer() {
                     onClick={() => downloadCsv(sortedCounties)}
                     disabled={sortedCounties.length === 0}
                   >
-                    Download filtered CSV
+                    Download this list (CSV)
                   </button>
                 </div>
                 <p className="table-helper">
-                  Search county, state abbreviation, or FIPS. Select a row to
-                  compare its measures and beneficiary counts.
+                  Search by county name, state abbreviation, or FIPS. Choose a
+                  county name to see its measures and beneficiary counts.
                 </p>
 
                 <div className="filter-grid">
@@ -961,7 +960,7 @@ function HealthcareAccessExplorer() {
                     </select>
                   </label>
                   <label className="filter-field">
-                    <span>Order results by</span>
+                    <span>Sort by</span>
                     <select
                       value={sortMode}
                       onChange={(event) => {
@@ -977,7 +976,7 @@ function HealthcareAccessExplorer() {
                     >
                       <option value="need">Higher need first</option>
                       <option value="readmissions">
-                        Higher readmission measure first
+                        Highest readmission measure first
                       </option>
                     </select>
                   </label>
@@ -993,7 +992,7 @@ function HealthcareAccessExplorer() {
                         setPage(1)
                       }}
                     />
-                    <span>Top-quartile candidates only</span>
+                    <span>Top quartile on both measures only</span>
                   </label>
                   <label className="check-field">
                     <input
@@ -1011,13 +1010,13 @@ function HealthcareAccessExplorer() {
                     className="text-button clear-button"
                     onClick={resetFilters}
                   >
-                    Clear filters
+                    Reset filters
                   </button>
                 </div>
 
                 <p className="result-count" role="status" aria-live="polite">
                   {sortedCounties.length === 0
-                    ? 'No matching counties'
+                    ? 'No counties match'
                     : `Showing ${(page - 1) * PAGE_SIZE + 1}–${Math.min(page * PAGE_SIZE, sortedCounties.length)} of ${INTEGER_FORMAT.format(sortedCounties.length)} counties`}
                 </p>
                 <CountyTable
@@ -1054,20 +1053,21 @@ function HealthcareAccessExplorer() {
             <aside className="detail-rail" aria-label="Selected county">
               <CountyDetails county={selectedCounty} />
               <div className="denominator-callout">
-                <p className="detail-eyebrow">Interpret with care</p>
-                <h3>Counts are context, not the rate denominator.</h3>
+                <p className="detail-eyebrow">About beneficiary counts</p>
+                <h3>Counts are context—not confirmed denominators.</h3>
                 <p>
-                  CMS reports both total and Original Medicare beneficiary
-                  counts. The exact denominator for each outcome still needs
-                  confirmation in the measure documentation.
+                  CMS reports total and Original Medicare beneficiaries, but I
+                  haven’t confirmed which denominator each outcome uses. Check
+                  the measure documentation before treating a count as the
+                  denominator.
                 </p>
                 <details>
-                  <summary>Why does this matter?</summary>
+                  <summary>Why should I care?</summary>
                   <p>
-                    A rate from a small population can be unstable. Suppressed
-                    or missing values are not zero, and a beneficiary count
-                    should not be substituted for an outcome-specific
-                    denominator without documentation.
+                    Rates from small populations can swing more. Missing or
+                    suppressed values aren’t zero. Don’t use beneficiary
+                    counts as outcome denominators unless the CMS documentation
+                    says they belong there.
                   </p>
                 </details>
               </div>
